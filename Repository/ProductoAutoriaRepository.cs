@@ -2,7 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 /// <summary>
-/// Implementación del repositorio de ProductoAutoria usando una lista en memoria.
+/// Implementación del repositorio de ProductoAutoria usando una lista en memoria,
+/// con productos pre-cargados para tener ejemplos.
 /// </summary>
 public class ProductoAutoriaRepository : IProductoAutoriaRepository
 {
@@ -16,6 +17,41 @@ public class ProductoAutoriaRepository : IProductoAutoriaRepository
     /// </summary>
     private int _nextId = 1;
 
+    /// <summary>
+    /// Constructor: se agregan algunos productos de ejemplo.
+    /// </summary>
+    public ProductoAutoriaRepository()
+    {
+        // Se agregan productos de ejemplo con los nuevos campos
+
+        _productos.Add(new ProductoAutoria 
+        { 
+            Id = _nextId++, 
+            Titulo = "La sombra del viento", 
+            Autor = "Carlos Ruiz Zafón",
+            Precio = 15.99m,
+            NumeroSerie = "SZ-001"
+        });
+        
+        _productos.Add(new ProductoAutoria 
+        { 
+            Id = _nextId++, 
+            Titulo = "Cien años de soledad", 
+            Autor = "Gabriel García Márquez",
+            Precio = 20.50m,
+            NumeroSerie = "CY-002"
+        });
+        
+        _productos.Add(new ProductoAutoria 
+        { 
+            Id = _nextId++, 
+            Titulo = "El nombre de la rosa", 
+            Autor = "Umberto Eco",
+            Precio = 18.75m,
+            NumeroSerie = "NR-003"
+        });
+    }
+
     /// <inheritdoc/>
     public IEnumerable<ProductoAutoria> GetAll() => _productos;
 
@@ -26,7 +62,7 @@ public class ProductoAutoriaRepository : IProductoAutoriaRepository
     /// <inheritdoc/>
     public void Add(ProductoAutoria producto)
     {
-        // Asigna un identificador único al producto y lo añade a la lista.
+        // Se asigna un identificador único al producto y se añade a la lista.
         producto.Id = _nextId++;
         _productos.Add(producto);
     }
@@ -38,7 +74,6 @@ public class ProductoAutoriaRepository : IProductoAutoriaRepository
         var index = _productos.FindIndex(p => p.Id == producto.Id);
         if (index != -1)
         {
-            // Si se encuentra, actualiza el producto en la lista.
             _productos[index] = producto;
         }
     }
@@ -46,11 +81,9 @@ public class ProductoAutoriaRepository : IProductoAutoriaRepository
     /// <inheritdoc/>
     public void Delete(int id)
     {
-        // Obtiene el producto por su id.
         var producto = GetById(id);
         if (producto != null)
         {
-            // Elimina el producto de la lista.
             _productos.Remove(producto);
         }
     }
