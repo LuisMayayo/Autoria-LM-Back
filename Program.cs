@@ -147,6 +147,9 @@ builder.Services.AddScoped<IReseñaService, ReseñaService>();
 builder.Services.AddSingleton<IProductoAutoriaRepository, ProductoAutoriaRepository>();
 builder.Services.AddTransient<IProductoAutoriaService, ProductoAutoriaService>();
 
+builder.Services.AddSingleton<IPruebaAutoriaRepository, PruebaAutoriaRepository>();
+builder.Services.AddTransient<IPruebaAutoriaService, PruebaAutoriaService>();
+
 // 6) Registrar EmailSettings y EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
