@@ -147,6 +147,11 @@ builder.Services.AddScoped<IReseñaService, ReseñaService>();
 builder.Services.AddSingleton<IProductoAutoriaRepository, ProductoAutoriaRepository>();
 builder.Services.AddTransient<IProductoAutoriaService, ProductoAutoriaService>();
 
+// Registrar dependencias
+builder.Services.AddSingleton<IProductoBBDDRepository>(new ProductoBBDDRepository(connectionString));
+builder.Services.AddTransient<IProductoBBDDService, ProductoBBDDService>();
+
+
 // 6) Registrar EmailSettings y EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
