@@ -151,6 +151,14 @@ builder.Services.AddTransient<IProductoAutoriaService, ProductoAutoriaService>()
 builder.Services.AddSingleton<IProductoBBDDRepository>(new ProductoBBDDRepository(connectionString));
 builder.Services.AddTransient<IProductoBBDDService, ProductoBBDDService>();
 
+// Registrar dependencias
+builder.Services.AddSingleton<ICocheBBDDRepository>(new CocheBBDDRepository(connectionString));
+builder.Services.AddTransient<ICocheBBDDService, CocheBBDDService>();
+
+// Inyección de dependencias: Registramos el repositorio en memoria y el servicio.
+builder.Services.AddSingleton<ICocheAutoriaRepository, CocheAutoriaRepository>();
+builder.Services.AddTransient<ICocheAutoriaService, CocheAutoriaService>();
+
 
 // 6) Registrar EmailSettings y EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
