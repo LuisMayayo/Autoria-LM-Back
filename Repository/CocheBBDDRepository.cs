@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 
 
 /// <summary>
-/// Implementa la interfaz IProductoBBDDRepository utilizando ADO.NET para comunicarse con MSSQL.
+/// Implementa la interfaz ICocheBBDDRepository utilizando ADO.NET para comunicarse con MSSQL.
 /// </summary>
-public class ProductoBBDDRepository : IProductoBBDDRepository
+public class CocheBBDDRepository : ICocheBBDDRepository
 {
     /// <summary>
     /// Cadena de conexión a la base de datos MSSQL.
@@ -16,51 +16,51 @@ public class ProductoBBDDRepository : IProductoBBDDRepository
     /// <summary>
     /// Constructor que recibe la cadena de conexión.
     /// </summary>
-    public ProductoBBDDRepository(string connectionString)
+    public CocheBBDDRepository(string connectionString)
     {
         _connectionString = connectionString;
     }
 
     /// <inheritdoc/>
-    public IEnumerable<ProductoBBDD> GetAll()
+    public IEnumerable<CocheBBDD> GetAll()
     {
-        var productos = new List<ProductoBBDD>();
+        var coches = new List<CocheBBDD>();
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            // Consulta para obtener todos los productos de la tabla ProductoBBDD
-            string query = "SELECT Id, Titulo, Autor, Precio, NumeroSerie FROM ProductoBBDD";
+            // Consulta para obtener todos los coches de la tabla CocheBBDD
+            string query = "SELECT Id, Nombre, Marca, Precio, DescripcionCoche FROM CocheBBDD";
             using (var command = new SqlCommand(query, connection))
             {
                 using (var reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        var producto = new ProductoBBDD
+                        var coche = new CocheBBDD
                         {
                             Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
+                            Nombre = reader.GetString(1),
+                            Marca = reader.GetString(2),
                             Precio = reader.GetDecimal(3),
-                            NumeroSerie = reader.GetString(4)
+                            DescripcionCoche = reader.GetString(4)
                         };
-                        productos.Add(producto);
+                        coches.Add(coche);
                     }
                 }
             }
         }
-        return productos;
+        return coches;
     }
 
     /// <inheritdoc/>
-    public ProductoBBDD GetById(int id)
+    public CocheBBDD GetById(int id)
     {
-        ProductoBBDD producto = null;
+        CocheBBDD coche = null;
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            // Consulta para obtener un producto en base a su Id
-            string query = "SELECT Id, Titulo, Autor, Precio, NumeroSerie FROM ProductoBBDD WHERE Id = @Id";
+            // Consulta para obtener un coche en base a su Id
+            string query = "SELECT Id, Nombre, Marca, Precio, DescripcionCoche FROM CocheBBDD WHERE Id = @Id";
             using (var command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Id", id);
@@ -68,58 +68,58 @@ public class ProductoBBDDRepository : IProductoBBDDRepository
                 {
                     if (reader.Read())
                     {
-                        producto = new ProductoBBDD
+                        coche = new CocheBBDD
                         {
                             Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
+                            Nombre = reader.GetString(1),
+                            Marca = reader.GetString(2),
                             Precio = reader.GetDecimal(3),
-                            NumeroSerie = reader.GetString(4)
+                            DescripcionCoche = reader.GetString(4)
                         };
                     }
                 }
             }
         }
-        return producto;
+        return coche;
     }
 
     /// <inheritdoc/>
-    public void Add(ProductoBBDD producto)
+    public void Add(CocheBBDD coche)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            // Inserta el producto y obtiene el nuevo Id asignado
-            string query = @"INSERT INTO ProductoBBDD (Titulo, Autor, Precio, NumeroSerie)
-                             VALUES (@Titulo, @Autor, @Precio, @NumeroSerie);
+            // Inserta el coche y obtiene el nuevo Id asignado
+            string query = @"INSERT INTO CocheBBDD (Nombre, Marca, Precio, DescripcionCoche)
+                             VALUES (@Nombre, @Marca, @Precio, @DescripcionCoche);
                              SELECT SCOPE_IDENTITY();";
             using (var command = new SqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@Titulo", producto.Titulo);
-                command.Parameters.AddWithValue("@Autor", producto.Autor);
-                command.Parameters.AddWithValue("@Precio", producto.Precio);
-                command.Parameters.AddWithValue("@NumeroSerie", producto.NumeroSerie);
+                command.Parameters.AddWithValue("@Nombre", coche.Nombre);
+                command.Parameters.AddWithValue("@Marca", coche.Marca);
+                command.Parameters.AddWithValue("@Precio", coche.Precio);
+                command.Parameters.AddWithValue("@DescripcionCoche", coche.DescripcionCoche);
                 var result = command.ExecuteScalar();
-                producto.Id = Convert.ToInt32(result);
+                coche.Id = Convert.ToInt32(result);
             }
         }
     }
 
     /// <inheritdoc/>
-    public void Update(ProductoBBDD producto)
+    public void Update(CocheBBDD coche)
     {
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            // Actualiza los datos del producto existente en la tabla
-            string query = "UPDATE ProductoBBDD SET Titulo = @Titulo, Autor = @Autor, Precio = @Precio, NumeroSerie = @NumeroSerie WHERE Id = @Id";
+            // Actualiza los datos del coche existente en la tabla
+            string query = "UPDATE CocheBBDD SET Nombre = @Nombre, Marca = @Marca, Precio = @Precio, DescripcionCoche = @DescripcionCoche WHERE Id = @Id";
             using (var command = new SqlCommand(query, connection))
             {
-                command.Parameters.AddWithValue("@Titulo", producto.Titulo);
-                command.Parameters.AddWithValue("@Autor", producto.Autor);
-                command.Parameters.AddWithValue("@Precio", producto.Precio);
-                command.Parameters.AddWithValue("@NumeroSerie", producto.NumeroSerie);
-                command.Parameters.AddWithValue("@Id", producto.Id);
+                command.Parameters.AddWithValue("@Nombre", coche.Nombre);
+                command.Parameters.AddWithValue("@Marca", coche.Marca);
+                command.Parameters.AddWithValue("@Precio", coche.Precio);
+                command.Parameters.AddWithValue("@DescripcionCoche", coche.DescripcionCoche);
+                command.Parameters.AddWithValue("@Id", coche.Id);
                 command.ExecuteNonQuery();
             }
         }
@@ -131,8 +131,8 @@ public class ProductoBBDDRepository : IProductoBBDDRepository
         using (var connection = new SqlConnection(_connectionString))
         {
             connection.Open();
-            // Elimina el producto con el Id especificado
-            string query = "DELETE FROM ProductoBBDD WHERE Id = @Id";
+            // Elimina el coche con el Id especificado
+            string query = "DELETE FROM CocheBBDD WHERE Id = @Id";
             using (var command = new SqlCommand(query, connection))
             {
                 command.Parameters.AddWithValue("@Id", id);
