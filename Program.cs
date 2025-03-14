@@ -159,6 +159,9 @@ builder.Services.AddTransient<ICocheBBDDService, CocheBBDDService>();
 builder.Services.AddSingleton<ICocheAutoriaRepository, CocheAutoriaRepository>();
 builder.Services.AddTransient<ICocheAutoriaService, CocheAutoriaService>();
 
+// Inyección de dependencias: Registramos el repositorio en memoria y el servicio.
+builder.Services.AddSingleton<IBalonRepository, BalonRepository>();
+builder.Services.AddTransient<IBalonService, BalonService>();
 
 // 6) Registrar EmailSettings y EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
