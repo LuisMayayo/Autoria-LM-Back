@@ -7,8 +7,14 @@ docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=YourStrongPassword123!" -p 1
 dotnet add package MailKit
 dotnet add package Google.Apis.Auth
 
-
-
-
 //using Microsoft.Data.SqlClient;
 dotnet add package Microsoft.Data.SqlClient
+
+docker 
+---- back
+docker build -t mi-proyecto-back .
+docker run -p 5001:80 mi-proyecto-back  
+
+---- front
+docker build -t mi-proyecto-front . 
+docker run -p 5002:80 mi-proyecto-front 
