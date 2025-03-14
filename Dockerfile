@@ -7,7 +7,7 @@ WORKDIR /app
 # Copiar los archivos de la solución al contenedor
 COPY . .
 
-# 🔄 Especificar el archivo .csproj correcto (confirma la ruta)
+# Especificar el archivo .csproj correcto (confirma la ruta)
 RUN dotnet restore "EcommerceBackend.csproj"
 
 

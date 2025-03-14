@@ -164,7 +164,7 @@ builder.Services.AddSingleton<JwtService>();
 // 8) Construir la aplicación
 var app = builder.Build();
 
-// 🔄 Configurar Swagger para producción
+// Configurar Swagger para producción
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
