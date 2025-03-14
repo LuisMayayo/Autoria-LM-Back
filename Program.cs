@@ -149,6 +149,10 @@ builder.Services.AddTransient<IProductoAutoriaService, ProductoAutoriaService>()
 
 builder.Services.AddSingleton<IPruebaAutoriaRepository, PruebaAutoriaRepository>();
 builder.Services.AddTransient<IPruebaAutoriaService, PruebaAutoriaService>();
+// Inyección de dependencias: Registramos el repositorio en memoria y el servicio.
+builder.Services.AddSingleton<ICocheAutoriaRepository, CocheAutoriaRepository>();
+builder.Services.AddTransient<ICocheAutoriaService, CocheAutoriaService>();
+
 
 // 6) Registrar EmailSettings y EmailService
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
